@@ -3,7 +3,7 @@
 
     <groupId>org.vaadin.addons.abdullah</groupId>
     <artifactId>paper-slider</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <name>paper-slider</name>
     <description>Paper-slider that also works with gridpro</description>
 
@@ -117,23 +117,6 @@
                     <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-testbench</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>io.github.bonigarcia</groupId>
-            <artifactId>webdrivermanager</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
