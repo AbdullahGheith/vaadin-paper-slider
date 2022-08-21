@@ -1,6 +1,8 @@
 # What is this?
 
-Vaadin component.
+[Material slider](https://github.com/material-components/material-components-web/tree/master/packages/mdc-slider
+) wrapper as a Vaadin component. Does not have full functionality, you are welcome to extend it.
+
 
 # How to use it?
 
