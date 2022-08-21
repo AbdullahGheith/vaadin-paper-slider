@@ -1,59 +1,83 @@
 package org.vaadin.addons;
 
 import com.vaadin.flow.component.AbstractField.ComponentValueChangeEvent;
+import com.vaadin.flow.component.ClientCallable;
 import com.vaadin.flow.component.HasLabel;
 import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.charts.model.style.Color;
+import com.vaadin.flow.component.customfield.CustomField;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.dependency.JsModule.Container;
-import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.html.Input;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.littemplate.LitTemplate;
 import com.vaadin.flow.component.template.Id;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.shared.Registration;
 
 @Tag("paper-slider")
-@Container ({@JsModule("@vaadin/polymer-legacy-adapter/style-modules.js"), @JsModule("./paper-slider.ts")})
-class PaperSliderComponent extends LitTemplate implements HasValue<ComponentValueChangeEvent<Input, String>, String>, HasLabel {
+@Container ({@JsModule("./paper-slider.ts")})
+@CssImport(value = "./themes/slider.css", themeFor = "paper-slider")
+@NpmPackage(value = "@material/slider", version = "14.0.0")
+class PaperSliderComponent extends LitTemplate implements HasValue<ComponentValueChangeEvent<Input, Integer>, Integer>, HasLabel {
 
 	@Id("paperSlider")
 	private Input input;
 
-	@Id("label")
-	private Label label;
+	private Integer currentValue;
 
-	@Id("slider-value")
-	private Div sliderValue;
+	ValueChangeListener<? super ComponentValueChangeEvent<Input, Integer>> valueChangeListener;
 
 	private Boolean sliderShown = false;
 
-	public PaperSliderComponent(int currentValue) {
+	public PaperSliderComponent(Integer defaultValue, Integer min, Integer max) {
 		setMin(0);
 		setMax(100);
-		input.setValue(String.valueOf(currentValue));
-		input.setValueChangeMode(ValueChangeMode.EAGER);
-		input.addValueChangeListener(event -> {
-			if (sliderShown) {
-				sliderValue.setText(event.getValue());
+		setValue(currentValue);
+	}
+
+	@Override
+	public void setValue(Integer value) {
+		currentValue = value;
+		getElement().callJsFunction("changeValue", value);
+	}
+
+	@Override
+	public Integer getValue() {
+		return currentValue;
+	}
+
+	@ClientCallable
+	private void valueChangedEvent(Integer value) {
+		if (valueChangeListener != null) {
+			valueChangeListener.valueChanged(new ComponentValueChangeEvent<>(input, createHasValue(value), null, true));
+			currentValue = value;
+		}
+	}
+
+	public HasValue<?, Integer> createHasValue(Integer val){
+		HasValue<?, Integer> newHasValue = new CustomField<>() {
+			Integer value = val;
+			@Override
+			protected Integer generateModelValue() {
+				return value;
 			}
-		});
-	}
 
-	@Override
-	public void setValue(String s) {
-		input.setValue(s);
+			@Override
+			protected void setPresentationValue(Integer integer) {
+				this.value = integer;
+			}
+		};
+		newHasValue.setValue(val);
+		newHasValue.setReadOnly(false);
+		return newHasValue;
 	}
-
 	@Override
-	public String getValue() {
-		return input.getValue();
-	}
-
-	@Override
-	public Registration addValueChangeListener(ValueChangeListener<? super ComponentValueChangeEvent<Input, String>> valueChangeListener) {
-		return input.addValueChangeListener(valueChangeListener);
+	public Registration addValueChangeListener(ValueChangeListener<? super ComponentValueChangeEvent<Input, Integer>> valueChangeListener) {
+		this.valueChangeListener = valueChangeListener;
+		return null;
 	}
 
 	@Override
@@ -76,38 +100,35 @@ class PaperSliderComponent extends LitTemplate implements HasValue<ComponentValu
 		return input.isRequiredIndicatorVisible();
 	}
 
-	@Override
-	public void setLabel(String label) {
-		if (label != null && !label.isEmpty()) {
-			this.label.getStyle().set("display", "block");
-			this.label.setText(label);
-		} else {
-			this.label.getStyle().set("display", "none");
-			this.label.setText("");
-		}
+	public void setDisabled(boolean disabled){
+		input.setEnabled(!disabled);
+		getElement().setProperty("isDisabled", disabled);
 	}
 
-	@Override
-	public String getLabel() {
-		return this.getElement().getProperty("label");
+	public void hideValues() {
+		getElement().setProperty("showValue", false);
 	}
 
-	public void hideValueDiv() {
-		sliderValue.getStyle().set("display", "none");
-		sliderShown = false;
+	public void showValues() {
+		getElement().setProperty("showValue", true);
 	}
 
-	public void showValueDiv() {
-		sliderValue.getStyle().set("display", "block");
-		sliderValue.setText(input.getValue());
-		sliderShown = true;
-	}
-
-	public void setMin(int min) {
+	public void setMin(Integer min) {
 		getElement().setProperty("min", min);
 	}
 
-	public void setMax(int max) {
+	public void setMax(Integer max) {
 		getElement().setProperty("max", max);
+	}
+
+	public void setStep(Integer step) {
+		if (step != null)
+			getElement().setProperty("step", step);
+		else
+			getElement().removeProperty("step");
+	}
+
+	public void setPrimaryColor(String color) {
+		getElement().setProperty("primarycolor", color);
 	}
 }

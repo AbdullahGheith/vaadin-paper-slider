@@ -13,64 +13,71 @@ public class PaperSlider extends CustomField<Integer>
 	private Integer oldValue;
 
 	public PaperSlider(Integer defaultValue) {
+		this(defaultValue, 0, 100);
+	}
+
+	public PaperSlider(Integer defaultValue, Integer min, Integer max) {
 		super(defaultValue);
 
-		component = new PaperSliderComponent(defaultValue);
+		component = new PaperSliderComponent(defaultValue, min, max);
 		add(component);
 
-		getElement().setProperty("value", defaultValue);
 		this.oldValue = defaultValue;
 	}
 
-	public void setMin(int min) {
+	public void setMin(Integer min) {
 		component.setMin(min);
 	}
 
-	public void setMax(int max) {
+	public void setMax(Integer max) {
 		component.setMax(max);
 	}
 
 	public void showValues(){
-		component.showValueDiv();
+		component.showValues();
+	}
+
+	public void setValue(Integer value) {
+		component.setValue(value);
+	}
+
+	public void setPrimaryColor(String color){
+		component.setPrimaryColor(color);
+	}
+
+	public void setDisabled(boolean disabled) {
+		component.setDisabled(disabled);
 	}
 
 	public void hideValues(){
-		component.hideValueDiv();
+		component.hideValues();
 	}
 
 	@Override
 	protected Integer generateModelValue() {
-		return Integer.valueOf(component.getValue());
+		return getValue();
 	}
 
 	@Override
 	protected void setPresentationValue(Integer integer) {
-		component.setValue(String.valueOf(integer));
+		component.setValue(integer);
 	}
 
 	@Override
 	public Integer getValue(){
-		return Integer.valueOf(component.getValue());
+		return component.getValue();
 	}
 
-
-	@Override
-	public String getLabel() {
-		return component.getLabel();
-	}
-
-
-	@Override
-	public void setLabel(String label) {
-		component.setLabel(label);
+	public void setStep(Integer stepSize){
+		component.setStep(stepSize);
 	}
 
 	@Override
 	public Registration addValueChangeListener(ValueChangeListener<? super ComponentValueChangeEvent<CustomField<Integer>, Integer>> listener) {
-		ValueChangeListener<ComponentValueChangeEvent<Input, String>> proxyListener = new ValueChangeListener<>() {
+		ValueChangeListener<ComponentValueChangeEvent<Input, Integer>> proxyListener = new ValueChangeListener<>() {
 			@Override
-			public void valueChanged(ComponentValueChangeEvent<Input, String> inputStringComponentValueChangeEvent) {
-				HasValue<?, String> oldHasValue = inputStringComponentValueChangeEvent.getHasValue();
+			public void valueChanged(ComponentValueChangeEvent<Input, Integer> inputStringComponentValueChangeEvent) {
+				HasValue<?, Integer> oldHasValue = inputStringComponentValueChangeEvent.getHasValue();
 				HasValue<?, Integer> newHasValue = new CustomField<>() {
 					Integer value;
 					@Override
@@ -83,7 +90,7 @@ public class PaperSlider extends CustomField<Integer>
 						this.value = integer;
 					}
 				};
-				newHasValue.setValue(Integer.parseInt(oldHasValue.getValue()));
+				newHasValue.setValue(oldHasValue.getValue());
 				newHasValue.setReadOnly(oldHasValue.isReadOnly());
 				listener.valueChanged(new ComponentValueChangeEvent<>(self, newHasValue, oldValue, false));
 				oldValue = newHasValue.getValue();
