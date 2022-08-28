@@ -6,7 +6,21 @@
 
 # How to use it?
 
-Instructions found in Vaadin directory: [Component link](https://vaadin.com/directory/component/paper-slider)
+Add the following maven dependency to your pom.xml:
+
+```xml
+<repository>
+  <id>vaadin-addons</id>
+  <url>https://maven.vaadin.com/vaadin-addons</url>
+</repository>
+
+<dependency>
+  <groupId>org.vaadin.addons.abdullah</groupId>
+  <artifactId>paper-slider</artifactId>
+  <version>2.0.0</version>
+</dependency>
+```
+
 
 # Available commands:
 

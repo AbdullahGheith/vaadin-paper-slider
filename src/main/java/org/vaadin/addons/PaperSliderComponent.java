@@ -19,7 +19,6 @@ import com.vaadin.flow.shared.Registration;
 
 @Tag("paper-slider")
 @Container ({@JsModule("./paper-slider.ts")})
-@CssImport(value = "./themes/slider.css", themeFor = "paper-slider")
 @NpmPackage(value = "@material/slider", version = "14.0.0")
 class PaperSliderComponent extends LitTemplate implements HasValue<ComponentValueChangeEvent<Input, Integer>, Integer>, HasLabel {
 
