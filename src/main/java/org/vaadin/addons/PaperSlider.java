@@ -9,7 +9,6 @@ public class PaperSlider extends CustomField<Integer>
 {
 	PaperSliderComponent component;
 
-	PaperSlider self = this;
 	private Integer oldValue;
 
 	public PaperSlider(Integer defaultValue) {
@@ -92,7 +91,7 @@ public class PaperSlider extends CustomField<Integer>
 				};
 				newHasValue.setValue(oldHasValue.getValue());
 				newHasValue.setReadOnly(oldHasValue.isReadOnly());
-				listener.valueChanged(new ComponentValueChangeEvent<>(self, newHasValue, oldValue, false));
+				listener.valueChanged(new ComponentValueChangeEvent<>(PaperSlider.this, newHasValue, oldValue, false));
 				oldValue = newHasValue.getValue();
 			}
 		};
