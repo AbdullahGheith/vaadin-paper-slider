@@ -3,19 +3,19 @@
 
     <groupId>org.vaadin.addons.abdullah</groupId>
     <artifactId>paper-slider</artifactId>
-    <version>2.0.1</version>
+    <version>2.0.2</version>
     <name>paper-slider</name>
     <description>Paper-slider that also works with gridpro</description>
 
     <properties>
-        <vaadin.version>23.0.8</vaadin.version>
+        <vaadin.version>23.2.6</vaadin.version>
 
         <maven.compiler.source>1.9</maven.compiler.source>
         <maven.compiler.target>1.9</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <jetty.version>9.4.28.v20200408</jetty.version>
+        <jetty.version>11.0.12</jetty.version>
     </properties>
     <organization>
         <name>Abdullah Gheith</name>

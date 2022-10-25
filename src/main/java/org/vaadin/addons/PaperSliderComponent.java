@@ -5,16 +5,13 @@ import com.vaadin.flow.component.ClientCallable;
 import com.vaadin.flow.component.HasLabel;
 import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.Tag;
-import com.vaadin.flow.component.charts.model.style.Color;
 import com.vaadin.flow.component.customfield.CustomField;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.dependency.JsModule.Container;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.html.Input;
 import com.vaadin.flow.component.littemplate.LitTemplate;
 import com.vaadin.flow.component.template.Id;
-import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.shared.Registration;
 
 @Tag("paper-slider")
@@ -32,14 +29,15 @@ class PaperSliderComponent extends LitTemplate implements HasValue<ComponentValu
 	private Boolean sliderShown = false;
 
 	public PaperSliderComponent(Integer defaultValue, Integer min, Integer max) {
-		setMin(0);
-		setMax(100);
-		setValue(currentValue);
+		setMin(min);
+		setMax(max);
+		setValue(defaultValue);
 	}
 
 	@Override
 	public void setValue(Integer value) {
 		currentValue = value;
+		getElement().setProperty("value", value);
 		getElement().callJsFunction("changeValue", value);
 	}
 
@@ -104,11 +102,12 @@ class PaperSliderComponent extends LitTemplate implements HasValue<ComponentValu
 		getElement().setProperty("isDisabled", disabled);
 	}
 
-	public void hideValues() {
+	public void hideValueWhenSliding() {
 		getElement().setProperty("showValue", false);
+		getElement().callJsFunction("render");
 	}
 
-	public void showValues() {
+	public void showValueWhenSliding() {
 		getElement().setProperty("showValue", true);
 	}
 

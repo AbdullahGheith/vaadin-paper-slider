@@ -32,8 +32,8 @@ public class PaperSlider extends CustomField<Integer>
 		component.setMax(max);
 	}
 
-	public void showValues(){
-		component.showValues();
+	public void showValueWhenSliding(){
+		component.showValueWhenSliding();
 	}
 
 	public void setValue(Integer value) {
@@ -48,8 +48,8 @@ public class PaperSlider extends CustomField<Integer>
 		component.setDisabled(disabled);
 	}
 
-	public void hideValues(){
-		component.hideValues();
+	public void hideValueWhenSliding(){
+		component.hideValueWhenSliding();
 	}
 
 	@Override
