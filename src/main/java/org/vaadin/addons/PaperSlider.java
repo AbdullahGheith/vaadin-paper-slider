@@ -17,7 +17,7 @@ public class PaperSlider extends CustomField<Integer>
 
 	public PaperSlider(Integer defaultValue, Integer min, Integer max) {
 		super(defaultValue);
-
+		setWidthFull();
 		component = new PaperSliderComponent(defaultValue, min, max);
 		add(component);
 

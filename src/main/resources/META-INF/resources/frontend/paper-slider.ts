@@ -532,6 +532,18 @@ class PaperSlider extends LitElement {
       // @ts-ignore
       this.$server.valueChangedEvent(this.slider.getValue());
     });
+    this.onVisible(this.shadowRoot?.querySelector('.mdc-slider'), (element) => {console.log("element visible!");this.slider.layout()})
+  }
+
+  onVisible(element: any, callback: (element: any) => any) {
+    new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if(entry.intersectionRatio > 0) {
+          callback(element);
+          observer.disconnect();
+        }
+      });
+    }).observe(element);
   }
 
   changeValue(newValue: number){
