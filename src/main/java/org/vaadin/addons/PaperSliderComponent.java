@@ -50,8 +50,8 @@ class PaperSliderComponent extends LitTemplate implements HasValue<ComponentValu
 	private void valueChangedEvent(Integer value) {
 		if (valueChangeListener != null) {
 			valueChangeListener.valueChanged(new ComponentValueChangeEvent<>(input, createHasValue(value), null, true));
-			currentValue = value;
 		}
+		currentValue = value;
 	}
 
 	public HasValue<?, Integer> createHasValue(Integer val){
